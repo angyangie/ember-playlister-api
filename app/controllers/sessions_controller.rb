@@ -1,10 +1,10 @@
-class ApplicationController < ActionController::API
-  include ActionController::Serialization
-  include ActionController::HttpAuthentication::Token::ControllerMethods
+require 'pry'
+class SessionsController < Devise::SessionsController
+
+  skip_before_action :authenticate!, only: [:create]
+  respond_to :html, :json
 
   before_filter :cors_preflight_check
-  skip_before_action :authenticate!, if: :devise_controller?
-  # before_action :authenticate!
   after_filter :cors_set_access_control_headers
 
   def cors_set_access_control_headers
@@ -25,32 +25,25 @@ class ApplicationController < ActionController::API
     end
   end
 
-  private
-    def authenticate!
-      authenticate_token || render_unauthorized
-    end
 
-    def authenticate_token
-      authenticate_with_http_token do |token, options|
-         User.find_by(authentication_token: token)
-       end
+  def create
+    super do |user|
+      if request.format.json?
+        data = {
+          name: user.name,
+          token: user.authentication_token,
+          email: user.email
+        }
+        render json: data, status: 201 and return
+      end
     end
+  end
 
-    def render_unauthorized
-      render json: {
-        errors: ['Bad credentials']
-      }, status: 401
-    end
-
-    def current_user
-      authenticate_token
-    end
+  def me
+    binding.pry
+    render json: current_user
+  end
 end
-
-
-
-
-
 
 
 

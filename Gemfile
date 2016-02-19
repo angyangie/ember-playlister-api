@@ -12,6 +12,9 @@ gem "rest-client"
 
 
 gem 'pg'
+gem "bcrypt"
+gem "devise"
+gem 'rack-cors', :require => 'rack/cors'
 
 
 
