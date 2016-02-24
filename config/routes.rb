@@ -9,7 +9,6 @@ Rails.application.routes.draw do
       resources :albums, except: [:new, :edit]
       resources :artists, except: [:new, :edit]
       get "users/me", to: "users#me"
-      get "users/:id", to: "users#show"
     end
   end
 end

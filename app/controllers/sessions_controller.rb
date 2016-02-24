@@ -27,12 +27,9 @@ class SessionsController < Devise::SessionsController
 
 
   def create
-    # binding.pry
     # super do |user|
-    #     binding.pry
     user = User.find_by(email: params[:user][:email])
       if request.format.json? && (user.encrypted_password == BCrypt::Engine.hash_secret(params[:user][:password], user.encrypted_password))
-        # binding.pry
         data = {
           token: user.authentication_token,
           email: user.email

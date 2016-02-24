@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
 
   before_filter :cors_preflight_check
   skip_before_action :authenticate!, if: :devise_controller?
-  # before_action :authenticate!
+  before_action :authenticate!
   after_filter :cors_set_access_control_headers
 
   def cors_set_access_control_headers
@@ -27,7 +27,6 @@ class ApplicationController < ActionController::API
 
   private
     def authenticate!
-      # binding.pry
       authenticate_token || render_unauthorized
     end
 
