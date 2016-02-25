@@ -12,7 +12,6 @@ module Api
 
       def create
         album = Album.create(album_params)
-        binding.pry
         params[:album][:songs].each do |song|
           binding.pry
           album.songs << Song.create(song.to_h)
