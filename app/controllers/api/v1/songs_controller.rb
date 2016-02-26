@@ -11,7 +11,7 @@ module Api
       end
 
       def create
-        binding.pry
+        # binding.pry
         song = Song.new(song_params)
         # song.album = Album.find(params[:song][:album])
         # params[:song][:artists].each do |artist_id|

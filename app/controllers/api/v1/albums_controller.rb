@@ -12,9 +12,13 @@ module Api
 
       def create
         album = Album.create(album_params)
-        params[:album][:songs].each do |song|
-          binding.pry
-          album.songs << Song.create(song.to_h)
+        params[:album][:songs].each do |song_hash|
+          song = Song.create(name: song_hash[:name])
+          album.songs << song
+          song_hash[:artists].each do |artist|
+            song.artists << Artist.create(name: artist[:name])
+          end
+          song.save
         end
         album.save
         render json: album
