@@ -11,12 +11,11 @@ module Api
       end
 
       def create
-        # binding.pry
         song = Song.new(song_params)
-        # song.album = Album.find(params[:song][:album])
-        # params[:song][:artists].each do |artist_id|
-        #   song.artists << Artist.find(artist_id)
-        # end
+        artists_params[:artists].each do |artist_hash|
+          song.artists << Artist.find_by(id: artist_hash[:id], name: artist_hash[:name])
+        end
+        song.save
         render json: song
       end
 
@@ -24,6 +23,10 @@ module Api
 
         def song_params
           params.require(:song).permit(:name)
+        end
+
+        def artists_params
+          params.require(:song).permit(:artists => [:id, :name])
         end
     end
   end
